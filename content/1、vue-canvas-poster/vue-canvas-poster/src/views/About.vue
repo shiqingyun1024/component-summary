@@ -13,11 +13,11 @@
   </div>
 </template>
 <script>
-import vueCanvasPoster  from "vue-canvas-poster";
+// import vueCanvasPoster  from "vue-canvas-poster";
 
 export default {
   components: {
-    vueCanvasPoster,
+    // vueCanvasPoster,
   },
   data() {
     return {
@@ -54,7 +54,7 @@ export default {
             type: "qrcode",
             content:require('../images/qrcode.png'),
             css: {
-              bottom: "50px",
+              bottom: "30px",
               right: "26px",
               color: "#000",
               background: "#fff",
@@ -84,5 +84,9 @@ export default {
 img {
   width: 100%;
   height: 100%;
+}
+.content_container{
+  width: 550px;
+  height: 876px;
 }
 </style>
