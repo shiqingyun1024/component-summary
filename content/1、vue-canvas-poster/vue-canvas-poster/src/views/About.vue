@@ -23,8 +23,8 @@ export default {
     return {
       posterImg: "", //生成的海报
       painting: {
-        width: "550px",
-        height: "876px",
+        width: "1080px",
+        height: "2089px",
         background:
           "https://ddcz.oss-cn-beijing.aliyuncs.com/images/file-1587004539522R5oa.png",
         views: [
@@ -32,7 +32,7 @@ export default {
             type: "image",
             url: require('../images/123.png'),
             css: {
-              top: "20px",
+              top: "40px",
               left: "36px",
               borderRadius: "40px",
               width: "80px",
@@ -52,16 +52,17 @@ export default {
           },
           {
             type: "qrcode",
-            content:require('../images/qrcode.png'),
+            content:'https://blog.csdn.net/inmarry/article/details/105552070',
             css: {
-              bottom: "30px",
-              right: "26px",
+              bottom: "68px",
+              right: "68px",
               color: "#000",
               background: "#fff",
-              width: "130px",
-              height: "130px",
-              borderWidth: "10px",
+              width: "356px",
+              height: "356px",
+              borderWidth: "15px",
               borderColor: "#fff",
+              borderRadius:'2px'
             },
           },
         ],
@@ -86,7 +87,7 @@ img {
   height: 100%;
 }
 .content_container{
-  width: 550px;
-  height: 876px;
+  width: 540px;
+  height: 1045px;
 }
 </style>
