@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rrweb插件</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rrweb@latest/dist/rrweb.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/rrweb@latest/dist/rrweb.min.js"></script>
+
+</head>
+
+<body>
+    <div class="rrweb">
+        <p>可回溯插件-录制元素</p>
+        <p>可回溯插件-event</p>
+        <button onclick="getEvent()">getEvent</button>
+    </div>
+    <script>
+        let [events,eventkey] = [[],0];
+
+        rrweb.record({
+            emit(event) {
+                eventkey++;
+                console.log(event);
+                events.push(event)
+                // 用任意方式存储 event
+            },
+        });
+        function getEvent(){
+            console.log(events.length);
+            console.log(eventkey);
+            let index = JSON.stringify(events)
+            console.log(index.length.toString());
+            console.log(index.length.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,'));
+        }
+    </script>
+</body>
+
+</html>

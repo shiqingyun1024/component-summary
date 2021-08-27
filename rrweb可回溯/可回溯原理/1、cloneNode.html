@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>克隆元素</title>
+</head>
+
+<body>
+    <p>-----------1------------</p>
+    <div class="rrweb">
+        <p>可回溯原理-克隆元素</p>
+    </div>
+    <p>-----------2------------</p>
+    <div class="myList">
+
+    </div>
+    <p>-----------3------------</p>
+    <div class="rrweb-node">
+
+    </div>
+    <button onclick="myFunction()">克隆元素</button>
+    <script>
+        /* 主要是 cloneNode和XMLSerializer将dom对象序列化成string*/
+        function myFunction() {
+            var itm = document.getElementsByClassName("rrweb")[0];
+            var cln = itm.cloneNode(true);
+            var cln2 = itm.cloneNode(false);
+            console.log(cln);
+            console.log(cln2);
+            const serializer = new XMLSerializer(); // XMLSerializer 是浏览器自带的 api，可以将 dom 对象序列化成 string
+            console.log(typeof serializer);
+            const str = serializer.serializeToString(cln);
+            console.log(typeof str);
+            console.log(str);
+            document.getElementsByClassName("rrweb-node")[0].innerHTML = str;
+            document.getElementsByClassName("myList")[0].appendChild(cln);
+        }
+    </script>
+</body>
+
+</html>
