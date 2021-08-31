@@ -18,23 +18,44 @@
         <button onclick="getEvent()">getEvent</button>
     </div>
     <script>
-        let [events,eventkey] = [[],0];
+        let [events,eventkey,tasks] = [[],0,[]];
 
         rrweb.record({
             emit(event) {
                 eventkey++;
-                console.log(event);
+                // console.log(event);
                 events.push(event)
                 // 用任意方式存储 event
             },
         });
         function getEvent(){
-            console.log(events.length);
-            console.log(eventkey);
+            // console.log(events.length);
+            // console.log(eventkey);
             let index = JSON.stringify(events)
-            console.log(index.length.toString());
-            console.log(index.length.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,'));
+            // console.log(index.length.toString());
+            // console.log(index.length.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,'));
         }
+        function upload(id){
+            return new Promise((resolve,reject)=>{
+                setTimeout(function(){
+                    console.log(123);
+                },2000)
+                resolve(id)
+            })
+
+        }
+        function save(isTask){
+           let task = upload(1);
+           console.log(task);
+           isTask && tasks.push(task)
+           console.log(tasks);
+        }
+        console.log(save(false));
+        save(true)
+        console.log(save(tasks));
+        Promise.all(tasks).then((res)=>{
+            console.log(res);
+        })
     </script>
 </body>
 
