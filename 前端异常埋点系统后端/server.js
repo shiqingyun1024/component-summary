@@ -30,9 +30,10 @@ router.post("/upload", async (ctx) => {
 router.get("/error", async (ctx) => {
     console.log('接收错误信息');
     const errInfo = ctx.query.info;
+    console.log(errInfo);
     // 转码 反序列化
     let obj = JSON.parse(Buffer.from(errInfo, "base64").toString("utf-8"));
-  
+    console.log(obj);
     let fileUrl = obj.filename.split("/").pop() + ".map"; // map文件路径
     // 解析sourceMap
     // 1.sourcemap文件的文件流，我们已经上传 

@@ -15,7 +15,7 @@ export default class Home extends Vue {
   //   }
   // },
   getImg(){
-      throw new Error('错误输出');
+      throw new Error('手动点击触发错误');
   }
 }
 </script>

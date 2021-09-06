@@ -5,7 +5,7 @@ module.exports = {
     productionSourceMap: true,
     devServer:{
         open:true,
-        port:8090
+        port:3000
     },
     configureWebpack: {
         resolve: {
