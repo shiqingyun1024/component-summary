@@ -9,53 +9,85 @@ const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
 const app = new Koa();
 const router = new Router();
-app.use(staticServer(path.join(__dirname,'dist')))
+app.use(staticServer(path.join(__dirname, 'dist')))
 // app.use(staticServer(__dirname + ‘/static’));
 /* 接收map文件的接口 */
 router.post("/upload", async (ctx) => {
-    console.log('上传map文件');
-    const stream = ctx.req;
-    const filename = ctx.query.name;
-    let dir = path.join(__dirname, "source-map");
-    //判断source文件夹是否存在
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir);
-    }
-    let target = path.join(dir, filename);
-    const ws = fs.createWriteStream(target);
-    stream.pipe(ws);
+  console.log('上传map文件');
+  const stream = ctx.req;
+  const filename = ctx.query.name;
+  let dir = path.join(__dirname, "source-map");
+  //判断source文件夹是否存在
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+  }
+  let target = path.join(dir, filename);
+  const ws = fs.createWriteStream(target);
+  stream.pipe(ws);
 });
 
 /* 接收错误信息的接口 */
 router.get("/error", async (ctx) => {
-    console.log('接收错误信息');
-    const errInfo = ctx.query.info;
-    console.log(errInfo);
-    // 转码 反序列化
-    let obj = JSON.parse(Buffer.from(errInfo, "base64").toString("utf-8"));
-    console.log(obj);
-    let fileUrl = obj.filename.split("/").pop() + ".map"; // map文件路径
-    // 解析sourceMap
-    // 1.sourcemap文件的文件流，我们已经上传 
-    // 2.文件编码格式
-    let consumer = await new sourceMap.SourceMapConsumer(
-      fs.readFileSync(path.join(__dirname, "source-map/" + fileUrl), "utf8")
-    );
-    // 解析原始报错数据
-    let result = consumer.originalPositionFor({
-      line: obj.lineno, // 压缩后的行号
-      column: obj.colno, // 压缩后的列号
-    });
-    // 写入到日志中
-    obj.lineno = result.line;
-    obj.colno = result.column;
-    log4js.logError(JSON.stringify(obj));
-    ctx.body = "";
+  console.log('接收错误信息');
+  const errInfo = ctx.query.info;
+  console.log(errInfo);
+  // 转码 反序列化
+  let obj = JSON.parse(Buffer.from(errInfo, "base64").toString("utf-8"));
+  console.log(obj);
+  let fileUrl = obj.filename.split("/").pop() + ".map"; // map文件路径
+  // 解析sourceMap
+  // 1.sourcemap文件的文件流，我们已经上传 
+  // 2.文件编码格式
+  let consumer = await new sourceMap.SourceMapConsumer(
+    fs.readFileSync(path.join(__dirname, "source-map/" + fileUrl), "utf8")
+  );
+  // 解析原始报错数据
+  let result = consumer.originalPositionFor({
+    line: obj.lineno, // 压缩后的行号
+    column: obj.colno, // 压缩后的列号
   });
-  app.use(router.routes());
+  // 写入到日志中
+  obj.lineno = result.line;
+  obj.colno = result.column;
+  log4js.logError(JSON.stringify(obj));
+  ctx.body = "";
+});
+/* 接收错误信息的接口 */
+router.get("/error2", async (ctx) => {
+  console.log('接收错误信息');
+  const errInfo = ctx.query.info;
+  console.log(errInfo);
+  // 转码 反序列化
+  let objArr = JSON.parse(Buffer.from(errInfo, "base64").toString("utf-8"));
+  console.log(objArr);
+  if (obj.length > 0) {
+    for (let i = 0, length = objArr.length; i < length; i++) {
+      let obj = objArr[i];
+      let fileUrl = obj.filename.split("/").pop() + ".map"; // map文件路径
+      // 解析sourceMap
+      // 1.sourcemap文件的文件流，我们已经上传 
+      // 2.文件编码格式
+      let consumer = await new sourceMap.SourceMapConsumer(
+        fs.readFileSync(path.join(__dirname, "source-map/" + fileUrl), "utf8")
+      );
+      // 解析原始报错数据
+      let result = consumer.originalPositionFor({
+        line: obj.lineno, // 压缩后的行号
+        column: obj.colno, // 压缩后的列号
+      });
+      // 写入到日志中
+      obj.lineno = result.line;
+      obj.colno = result.column;
+      log4js.logError(JSON.stringify(obj));
+      ctx.body = "";
+    }
+  }
+});
 
-  app.use(history())
+app.use(router.routes());
+
+app.use(history())
 
 app.listen(3000, (err) => {
-    if (!err) console.log('服务器启动成功了');
+  if (!err) console.log('服务器启动成功了');
 })
