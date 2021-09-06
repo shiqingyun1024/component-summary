@@ -14,7 +14,7 @@ let uploadErr = function({ lineno, colno, error: { stack }, message, filename })
 }
 let uploadErr2 = function(stack) {
     let str = window.btoa(
-        JSON.stringify({stack})
+        JSON.stringify(stack)
     );
     let front_ip = "http://192.168.31.135:3000/error2";
     // let front_ip = "http://location:3000/error";
