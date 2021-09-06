@@ -1,4 +1,5 @@
 /* webpack是由node编写的，所以遵循common.js规范 */
+const {resolve} = require('path')
 let SourceMapUploader = require("./plugins/source-map-upload");
 module.exports = {
     productionSourceMap: true,
